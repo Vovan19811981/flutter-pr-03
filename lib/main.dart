@@ -14,23 +14,34 @@ class DeveloperCardApp extends StatefulWidget {
 }
 
 class _DeveloperCardAppState extends State<DeveloperCardApp> {
-  bool _dark = false;
+  ThemeMode _themeMode = ThemeMode.light;
+
+  void _toggleTheme() {
+    setState(() {
+      _themeMode = _themeMode == ThemeMode.light
+          ? ThemeMode.dark
+          : ThemeMode.light;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Developer Card',
-      themeMode: _dark ? ThemeMode.dark : ThemeMode.light,
-      theme: ThemeData(colorSchemeSeed: Colors.indigo, useMaterial3: true),
-      darkTheme: ThemeData(
-        colorSchemeSeed: Colors.indigo,
-        brightness: Brightness.dark,
+      themeMode: _themeMode,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: true,
       ),
-      home: ProfileScreen(
-        onToggleTheme: () => setState(() => _dark = !_dark),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.indigo,
+          brightness: Brightness.dark,
+        ),
+        useMaterial3: true,
       ),
+      home: ProfileScreen(onToggleTheme: _toggleTheme),
     );
   }
 }
